@@ -11,7 +11,15 @@ const maxMessageLength = 64;
 const memTranslations = [];
 const memLimit = 1000;
 const twitchUsernameRegex = /@[a-zA-Z0-9_]{4,25}\b/gi
+const {Translate} = require('@google-cloud/translate').v2;
+const google_apikey = process.env.GOOGLE_API
+const projectID = process.env.ProjectID
+const translate = new Translate({
+  projectID,
+  key: google_apikey,
+});
 let translationCalls = 0;
+
 
 function translateMessage( channel, userstate, message, app ) {
   try {
@@ -111,7 +119,19 @@ async function translateMessageWithAzure( channel, userstate, message, app ) {
     }
 
 	try {
-	    // Get Translation from translateMessageWithAzure
+   
+
+
+  let [body] = await translate.translate(filteredMessage, language);
+  body = Array.isArray(body) ? body : [body];
+  console.log('body');
+  body.forEach((body, i) => {
+    console.log(`${filteredMessage[i]} => (${language}) ${body}`);
+  });
+
+  
+
+	   /* // Get Translation from translateMessageWithAzure
 		let body = await fetch( `https://api.cognitive.microsofttranslator.com/translate?api-version=3.0&to=${ language }`, {
 			method: "POST",
 	        headers: {
@@ -126,20 +146,21 @@ async function translateMessageWithAzure( channel, userstate, message, app ) {
 		        }
 			]),
 		} ).then( r => r.json() );
+    */
 		// TODO: batch translations into single calls by time for performance
 
-		 console.log( body );
-       console.log( body, body[ 0 ].translations );
+		 
+       //console.log( body, body[ 0 ].translations );
         translationCalls++;
         if( translationCalls % 50 === 0 ) console.log( "API calls" + translationCalls );
 
       if( body && body.length > 0 ) {
         var resp = {
-          text: [ body[ 0 ].translations[ 0 ].text ],
-          lang: body[ 0 ].detectedLanguage.language
+          text: body,
+          lang: 'en'
         };
         sendTranslationFromResponse( language, filteredMessage, channel, userstate, resp, app, true );
-
+        
         // Cache translation
 		const translation = await ComfyDB.Get( filteredMessage, "translations" ) || {};
 		translation[ language ] = resp;
@@ -261,7 +282,8 @@ function sendTranslationFromResponse( language, filteredMessage, channel, userst
     langFrom = resp[ language ].lang;
   }
 
-  if( !langFrom || langFrom.startsWith( language ) ) return
+  
+  
 
   // No need to send duplicate in same language
   if( text == filteredMessage ) {
@@ -273,6 +295,7 @@ function sendTranslationFromResponse( language, filteredMessage, channel, userst
   }
 
   client.say( channel, `${ color ? "/me " : "" }${ langshow ? "(" + languages[ langFrom.split("-")[ 0 ] ] + ") " : "" }${ userstate[ "display-name" ] }: ${ text }` );
+  
 }
 
 module.exports = { translateMessage, translateMessageWithAzure, translateMessageComfyTranslations }

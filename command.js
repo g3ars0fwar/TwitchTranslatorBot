@@ -60,7 +60,8 @@ add( [ "join" ],
             langshow: false,
             pause: false,
             gpt: false,
-            cooldown: 0
+            cooldown: 0,
+            prompt: "You are a helpful assistant"
           };
           store.put( "channels", channels );
           client.say( userChannel, "/me Hello! I am ready to translate" );
@@ -303,6 +304,162 @@ add ( [ "gptpause", ],
      }
     ),
 
+
+    add( [ "gpttrump" ],
+    ( { channels, store, client }, channelName, channelConfig, userstate, message ) => {
+      const prompt = "You are donald trump always reply in the tone of donald trump never break character"
+      console.log(prompt)
+      channelConfig.prompt = prompt;
+      store.put( "channels", channels ); 
+      client.say( channelName, 'GPT set to the Trump personality') ;
+      
+      },
+    
+    {
+    
+      modOnly: true,
+      description: {
+        en: "Toggle pause on and off in mongoDatabase."
+        }
+      
+       }
+      ),
+
+      
+    add( [ "gptangry" ],
+    ( { channels, store, client }, channelName, channelConfig, userstate, message ) => {
+      const prompt = "You are an angry person you will never break character and are extremely rude."
+      console.log(prompt)
+      channelConfig.prompt = prompt;
+      store.put( "channels", channels ); 
+      client.say( channelName, 'GPT set to the angry personality') ;
+      
+      },
+    
+    {
+    
+      modOnly: true,
+      description: {
+        en: "Toggle pause on and off in mongoDatabase."
+        }
+      
+       }
+      ),
+
+      add( [ "gptsarcastic" ],
+      ( { channels, store, client }, channelName, channelConfig, userstate, message ) => {
+        const prompt = "You are a cynical person you will never break character and are extremely sarcastic."
+        console.log(prompt)
+        channelConfig.prompt = prompt;
+        store.put( "channels", channels ); 
+        client.say( channelName, 'GPT set to the sarcastic personality') ;
+        
+        },
+      
+      {
+      
+        modOnly: true,
+        description: {
+          en: "Toggle pause on and off in mongoDatabase."
+          }
+        
+         }
+        ),
+
+        add( [ "gptmarcus" ],
+        ( { channels, store, client }, channelName, channelConfig, userstate, message ) => {
+          const prompt = "you are marcus pheonix from gears of war you will never break character and will mention your tomatoes quite often"
+          console.log(prompt)
+          channelConfig.prompt = prompt;
+          store.put( "channels", channels ); 
+          client.say( channelName, 'GPT set to the Marcus Pheonix personality') ;
+          
+          },
+        
+        {
+        
+          modOnly: true,
+          description: {
+            en: "Toggle pause on and off in mongoDatabase."
+            }
+          
+           }
+          ),
+
+          add( [ "gptnormal" ],
+          ( { channels, store, client }, channelName, channelConfig, userstate, message ) => {
+            const prompt = "you are a helpful assistant with a bit of sas"
+            console.log(prompt)
+            channelConfig.prompt = prompt;
+            store.put( "channels", channels ); 
+            client.say( channelName, 'GPT set to the Normal personality') ;
+            
+            },
+          
+          {
+          
+            modOnly: true,
+            description: {
+              en: "Toggle pause on and off in mongoDatabase."
+              }
+            
+             }
+            ),
+
+
+
+            add( [ "gptmrt" ],
+            ( { channels, store, client }, channelName, channelConfig, userstate, message ) => {
+              const prompt = "You will act like Mr.t you will always reply with his tone and never break character"
+              console.log(prompt)
+              channelConfig.prompt = prompt;
+              store.put( "channels", channels ); 
+              client.say( channelName, 'GPT set to the Mr.T personality') ;
+              
+              },
+            
+            {
+            
+              modOnly: true,
+              description: {
+                en: "Toggle pause on and off in mongoDatabase."
+                }
+              
+               }
+              ),
+             
+              add( [ "gptrs" ],
+              ( { channels, store, client }, channelName, channelConfig, userstate, message ) => {
+                const prompt = "You will act like a runescape character and will always reply with its persona you will never break character."
+                console.log(prompt)
+                channelConfig.prompt = prompt;
+                store.put( "channels", channels ); 
+                client.say( channelName, 'GPT set to a runescape characters POV personality') ;
+                
+                },
+              
+              {
+              
+                modOnly: true,
+                description: {
+                  en: "Toggle pause on and off in mongoDatabase."
+                  }
+                
+                 }
+                ),
+              add( [ "gptpersonas" ],
+              ( { client }, channelName ) => {
+              client.say( channelName, "You can now change my personality available personalities are trump, angry, sarcastic, marcus, normal and mrt To change my personality type !gptpersonality IE !gptmarcus" );
+            },
+          {
+
+
+           modOnly: true,
+           description: {
+           en: 'about myself'
+    }
+  }
+)
 
 module.exports = { runCommand, commands }
 

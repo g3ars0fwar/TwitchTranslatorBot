@@ -171,43 +171,42 @@ client.on('chat', async (channel, userstate, message, self,) => {
       messageCache.set(username, currentTime);
 	  async function queryOpenAI(message) {
 		try {
-
-			if (message.length < 10) {
-				client.say(channel, '@' + userstate.username + " Your message is too short. Please enter a message with at least " + 10 + " characters.");
-				return;
-			  }
 			
-			
-	  const response = await openai.createCompletion({
-		model: "text-davinci-003",
-		prompt: message,
-		temperature:1.5,
-		max_tokens: 50,
+			  const completion = await openai.createChatCompletion({
+				model: "gpt-3.5-turbo",
+				temperature:0.75,
+				max_tokens: 50,
+				messages: [
+					{role: "system", content: channels[channel].prompt}, 
+					{role: "user", content: message}, 
+					
+					],
 	  });
-	  const generatedText = response.data.choices[0].text;
-	  return generatedText;
+	          const generatedText = completion.data.choices[0].message;
+			  console.log(completion.data.choices[0].message);
+	          return generatedText;
+	  
 	} catch (error) {
-		console.error(error);
-		client.say(channel, '@' + userstate.username + "GPT is down please try again")
+		return;
 		
 	
 	}}
+
 	 try {
 	
       //console.log(messageCache.set(username, currentTime)) Logging command to check the MAP entries
       const response = await queryOpenAI(message.slice(prefix.length + command.length + 1));
-
-      if (message.length > 14) {client.say(channel, "@" + userstate.username + response);}
-		console.log(message.length)
-	  //console.log(response)
+	  console.log(response)
+      if (message.length > 0) {client.say(channel, "@" + userstate.username + " " + response.content);}
+		console.log(typeof response.content)
 	  } catch (error){
 		console.error(error);
-		client.say(channel, '@' + userstate.username + "Failed to respond please try again later")
+		client.say(channel, '@' + userstate.username + " Failed to respond please try again later")
 
 
 	  }
 
-    }
+	}
   }
 });
 
