@@ -47,6 +47,6 @@ OAUTH_2=oauth:oauthkey
 "Common Issues"
 1.) Cannot connect to MangoDB instance - You may need to change the index.js in conmfydb module from Localhost to 127.0.0.1.
 2.) Issue with reading map. -Verify that you have correctly entered in all .env variables You may have to enable logging commands to see what the API is returning.
-
+3.) currently this bot misinterpreta some words for other oanguages die to it translating too many languages. This will not be fixed in this version of the bot and will be fixed when it is remade. 
 
 Huge thanks to Instafluff for his GIT https://github.com/instafluff/ChatterboxTranslatorBot
